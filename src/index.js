@@ -5,9 +5,10 @@ const cors = require("cors");
 require("dotenv").config();
 
 const UserRouter = require("./routes/users");
+const RecipeRouter = require("./routes/recipes");
 
 const app = express();
-const PORT = process.env.PORT | 5500;
+const PORT = 5500;
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -23,9 +24,13 @@ const dbConnect = async () => {
 };
 
 app.use("/api", UserRouter);
+app.use("/api", RecipeRouter);
 
 dbConnect();
 
-app.listen(PORT, () => {
+app.listen(PORT, (err) => {
+  if (err) {
+    console.log(err);
+  }
   console.log("Server is running...");
 });

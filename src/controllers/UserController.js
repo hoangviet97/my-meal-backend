@@ -8,7 +8,7 @@ module.exports.auth = async (req, res, next) => {
 
   try {
     const user = await User.find({ email: email });
-    console.log(user[0].id);
+
     if (user.length > 0) {
       const token = jwt.sign({ email: email, id: user[0].id }, process.env.SECRET_KEY);
       res.status(201).json({ user: user[0], token: token });
@@ -21,4 +21,8 @@ module.exports.auth = async (req, res, next) => {
   }
 };
 
-module.exports.loadUser = async (req, res, next) => {};
+module.exports.loadUser = async (req, res, next) => {
+  const user = await User.find({ email: req.user.email });
+
+  res.status(201).json(user[0]);
+};
